@@ -51,11 +51,15 @@ document.addEventListener("DOMContentLoaded", () => {
         //   .attr("id", "tooltip2")
         //   .attr("data-date", (d) => `${dates[gdp.indexOf(d)]}`)
         .on("mouseover", (e, d) => {
+          let gdpInfo = d.toString().replace(/(\d)(?=(\d{3})+\.)/g, "$1,");
+
           d3.select("#tooltip")
             .attr("data-date", `${dates[gdp.indexOf(d)]}`)
             .style("left", e.pageX + 6 + "px")
             .style("top", e.pageY + 6 + "px")
-            .html(`<p>Date: ${dates[gdp.indexOf(d)]}</p><p>$${d} Billion</p>`);
+            .html(
+              `<p>Date: ${dates[gdp.indexOf(d)]}</p><p>$${gdpInfo} Billion</p>`
+            );
         })
       // .on("mouseout", () => {
       //   return d3.select("#tooltip").style("opacity", 0);
