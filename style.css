@@ -3,6 +3,7 @@ body {
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  position: relative;
 }
 
 svg {
@@ -13,4 +14,24 @@ svg {
   font-family: Helvetica, sans-serif;
   font-size: large;
   font-weight: bold;
+}
+
+.bar:hover {
+  fill: tomato;
+}
+
+#tooltip {
+  position: absolute;
+  color: white;
+  background-color: #a87735;
+  opacity: 80%;
+  padding: 5px;
+  border-radius: 5px;
+  font-family: Helvetica, sans-serif;
+  font-size: small;
+  pointer-events: none;
+}
+
+p {
+  margin: 2px;
 }
