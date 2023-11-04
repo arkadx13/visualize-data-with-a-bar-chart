@@ -1,8 +1,8 @@
 document.addEventListener("DOMContentLoaded", () => {
   const svgCanvass = {
     width: 900,
-    height: 500,
-    padding: 40,
+    height: 600,
+    padding: 80,
   };
 
   const createCanvass = () => {
@@ -35,14 +35,21 @@ document.addEventListener("DOMContentLoaded", () => {
       .attr("y", (d) => svgCanvass.height - (d[1] - svgCanvass.padding));
   };
 
-  const createAxes = (svg, xScale) => {
+  const createXAxis = (svg, xScale) => {
     return svg
       .append("g")
       .attr(
         "transform",
         `translate(0,${svgCanvass.height - svgCanvass.padding})`
       )
-      .call(d3.axisBottom(xScale).tickFormat((d) => d3.timeFormat("%Y")(d)));
+      .call(d3.axisBottom(xScale));
+  };
+
+  const createYAxis = (svg, yScale) => {
+    return svg
+      .append("g")
+      .attr("transform", `translate(${svgCanvass.padding},0)`)
+      .call(d3.axisLeft(yScale));
   };
 
   const createTooltip = () => {};
@@ -63,22 +70,29 @@ document.addEventListener("DOMContentLoaded", () => {
       const oldestDate = d3.min(dates);
       console.log("oldestDate", oldestDate);
       console.log("typeof oldestDate", typeof oldestDate);
-
       const latestDate = d3.max(dates);
       console.log("latestDate:", latestDate);
 
       const maxGPD = d3.max(gdp);
+      console.log(maxGPD);
 
       //Scaling
       const xScale = d3
-        .scaleLinear()
+        .scaleTime()
         .domain([new Date(oldestDate), new Date(latestDate)])
         .range([svgCanvass.padding, svgCanvass.width - svgCanvass.padding]);
+
+      const yScale = d3
+        .scaleLinear()
+        .domain([0, maxGPD])
+        .range([svgCanvass.height - svgCanvass.padding, svgCanvass.padding]);
 
       const svg = createCanvass();
       createTitle();
       //   createBar(svg, dataset);
-      createAxes(svg, xScale);
+      createXAxis(svg, xScale);
+      createYAxis(svg, yScale);
+
       createTooltip();
     })
     .catch((err) => console.log(err));
