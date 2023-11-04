@@ -1,0 +1,16 @@
+body {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+svg {
+  background-color: wheat;
+}
+
+text {
+  font-family: Helvetica, sans-serif;
+  font-size: large;
+  font-weight: bold;
+}
