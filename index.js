@@ -54,18 +54,21 @@ document.addEventListener("DOMContentLoaded", () => {
           let gdpInfo = d.toString().replace(/(\d)(?=(\d{3})+\.)/g, "$1,");
 
           d3.select("#tooltip")
-            .attr("data-date", `${dates[gdp.indexOf(d)]}`)
+            .style("opacity", 1)
             .style("left", e.pageX + 6 + "px")
-            .style("top", e.pageY + 6 + "px")
+            .style("top", e.pageY - 30 + "px")
+            .attr("data-date", `${dates[gdp.indexOf(d)]}`)
             .html(
               `<p>Date: ${dates[gdp.indexOf(d)]}</p><p>$${gdpInfo} Billion</p>`
             );
         })
-      // .on("mouseout", () => {
-      //   return d3.select("#tooltip").style("opacity", 0);
-      // })
-
-      //TODO: FIX MOUSEOUT EVENT
+        .on("mouseout", () => {
+          return d3
+            .select("#tooltip")
+            .style("opacity", 0)
+            .style("left", 0)
+            .style("top", 0);
+        })
     );
   };
 
@@ -86,6 +89,39 @@ document.addEventListener("DOMContentLoaded", () => {
       .attr("id", "y-axis")
       .attr("class", "tick")
       .call(d3.axisLeft(yScale));
+  };
+
+  const createMoreInfo = (data) => {
+    const updatedAt = new Date(data.updated_at);
+    d3.select("svg")
+      .append("text")
+      .text(`Updated at: ${updatedAt.toLocaleString()}`)
+      .attr("class", "source-info")
+      .attr("x", svgCanvass.padding)
+      .attr("y", svgCanvass.height - svgCanvass.padding / 3);
+
+    d3.select("svg")
+      .append("text")
+      .attr("class", "gdp-label")
+      .text(`GDP`)
+      .style("fill", "#507661")
+      .attr("x", svgCanvass.padding + 10)
+      .attr("y", (svgCanvass.height - svgCanvass.padding / 3) / 2);
+
+    d3.select("svg")
+      .append("text")
+      .text(`source:  ${data.source_name} (${data.source_code})`)
+      .attr("class", "source-info")
+      .attr("x", svgCanvass.width - svgCanvass.padding * 3.5)
+      .attr("y", svgCanvass.height - svgCanvass.padding / 3);
+
+    d3.select("svg")
+      .append("text")
+      .text(`${data.display_url})`)
+      .attr("class", "source-info")
+      .attr("x", svgCanvass.width - svgCanvass.padding * 3.5)
+      .attr("y", svgCanvass.height - svgCanvass.padding / 5)
+      .style("font-style", "italic");
   };
 
   fetch(
@@ -119,6 +155,7 @@ document.addEventListener("DOMContentLoaded", () => {
       createTooltip();
       createBar(svg, dates, gdp, xScale, yScale);
       createAxes(svg, xScale, yScale);
+      createMoreInfo(data);
     })
     .catch((err) => console.log(err));
 });

@@ -7,10 +7,12 @@ body {
 }
 
 svg {
+  position: relative;
   background-color: wheat;
 }
 
-#title {
+#title,
+.gdp-label {
   font-family: Helvetica, sans-serif;
   font-size: large;
   font-weight: bold;
@@ -22,16 +24,21 @@ svg {
 
 #tooltip {
   position: absolute;
-  color: white;
-  background-color: #a87735;
-  opacity: 80%;
+  color: black;
+  background-color: wheat;
   padding: 5px;
   border-radius: 5px;
   font-family: Helvetica, sans-serif;
   font-size: small;
+  font-weight: bolder;
   pointer-events: none;
 }
 
 p {
   margin: 2px;
+}
+
+.source-info {
+  font-family: Helvetica, sans-serif;
+  font-size: xx-small;
 }
