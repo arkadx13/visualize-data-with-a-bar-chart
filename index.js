@@ -117,7 +117,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
     d3.select("svg")
       .append("text")
-      .text(`${data.display_url})`)
+      .text(`${data.display_url}`)
       .attr("class", "source-info")
       .attr("x", svgCanvass.width - svgCanvass.padding * 3.5)
       .attr("y", svgCanvass.height - svgCanvass.padding / 5)
